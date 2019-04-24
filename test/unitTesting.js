@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var rp = require('request-promise');
 var url = "http://127.0.0.1:5000";
-
+var server = require("../server.js")
 
 /*  This function will make a request to the server and return a response
 *   @param option: Determines what type of action you are trying to send (login/register)
@@ -13,7 +13,7 @@ async function MakeRequest(option,user,pass){
   var data = {
     "option":option,
     "data": {
-      "user": user
+      "user": user,
       "pass": pass
     }
   };
@@ -46,7 +46,7 @@ describe('Login testing', function () {
     expect(res.status).to.equal("failed")
     expect(res.message).to.equal("Password missing")
   });
-  it('Missing password',async function () {
+  it('Missing username',async function () {
     var res =await MakeRequest("login","","1234567890")
     expect(res.status).to.equal("failed")
     expect(res.message).to.equal("Username missing")
@@ -84,7 +84,7 @@ describe('Register testing', function () {
     expect(res.status).to.equal("failed")
     expect(res.message).to.equal("Password missing")
   });
-  it('Missing password',async function () {
+  it('Missing username',async function () {
     var res =await MakeRequest("register","","1234567890")
     expect(res.status).to.equal("failed")
     expect(res.message).to.equal("Username missing")
@@ -98,5 +98,25 @@ describe('Register testing', function () {
     var res =await MakeRequest("","John","Doe")
     expect(res.status).to.equal("failed")
     expect(res.message).to.equal("Please choose an action")
+    process.exit();
   });
 });
+
+describe('Server Shutdown', function () {
+  it('Send the shutdown command',async function () {
+    var  res =await server.shutdown();
+  });
+})
+
+
+function response(status,message,userData = null){
+  var response = {
+    "status" : status,
+    "timestamp": new Date(),
+    "message":message
+  }
+  if(userData != null){
+    reponse.userData = userData;
+  }
+  return response
+}
