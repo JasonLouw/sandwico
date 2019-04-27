@@ -1,8 +1,10 @@
+import java.util.Vector;
+
 public class Routes {
     public String RouteName;
     private String routeName;
     private int routeId;
-    private Nodes[] nodes;
+    private Vector<Node> node = new Vector<Node>();
 
     public Routes(String s) {
         RouteName = s;
@@ -20,8 +22,11 @@ public class Routes {
     {
         return 0;
     }
-    public void addNode(Nodes n)
+    public void addNode(Node n)
     {
 
     }
+
+
+
 }

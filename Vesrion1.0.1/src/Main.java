@@ -1,5 +1,3 @@
-import java.util.Vector;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -8,20 +6,20 @@ public class Main {
             //Try pseudo code
             //Create Building
             //Building->addFloor
-            //Nodes(String Type,int Weight,int Distance)
+            //Node(String Type,int Weight,int Distance)
             Building Demo1 = new Building("CS_Department");
 
             Demo1.addFloor(new Floor("groundLevel"));
 
             Floor groundLevel = Demo1.getFloor(0);
-            Nodes start = new Nodes("normal",1,0);
+            Node start = new Node("normal",1,0);
             start.addPerson(new Person("JohnDoe"));
 
-            Nodes orangePathPoint = new Nodes("normal",1,4);
-            Nodes orangeGoal = new Nodes("goal",1,0);
+            Node orangePathPoint = new Node("normal",1,4);
+            Node orangeGoal = new Node("goal",1,0);
 
-            Nodes BluePathPoint = new Nodes("normal",1,4);
-            Nodes BlueGoal = new Nodes("goal",1,0);
+            Node BluePathPoint = new Node("normal",1,4);
+            Node BlueGoal = new Node("goal",1,0);
 
           //This will add all the nodes to the building but we have no way of moving between them yet so dont forget to connect them to each other
             groundLevel.nodes.add( start);
@@ -67,7 +65,7 @@ public class Main {
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         }
         System.exit(0);
     }

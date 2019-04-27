@@ -1,7 +1,7 @@
 import java.util.Vector;
 
 public class Floor {
-    protected Vector<Nodes> nodes;
+    protected Vector<Node> nodes;
     private Vector<Floor> ConnectedTo;
 
     public Floor(String n) {
@@ -17,9 +17,9 @@ public class Floor {
         return null;
     }
 
-    public Nodes getNode(int id)
+    public Node getNode(int id)
     {
-        for (Nodes n :nodes) {
+        for (Node n :nodes) {
             if(n.nodeId == id)
                 return n;
         }

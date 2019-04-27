@@ -1,6 +1,6 @@
 import java.util.Vector;
 
-public class Nodes {
+public class Node {
 
     static int numNodes = 0;
 
@@ -8,10 +8,10 @@ public class Nodes {
     int nodeId;
     int weight;
     int distanceToGoal;
-    Vector<Nodes> connectedTo = new Vector();
+    Vector<Node> connectedTo = new Vector();
     Vector<Person> assignedPersons = new Vector();
 
-    Nodes(String Type,int Weight,int Distance){
+    Node(String Type, int Weight, int Distance){
         nodeId = numNodes++;
         type= Type;
         weight = Weight;
@@ -26,7 +26,7 @@ public class Nodes {
     {
         return assignedPersons.size();
     }
-    void connect(Nodes n){// Done
+    void connect(Node n){// Done
         connectedTo.add(n);
 
     }
