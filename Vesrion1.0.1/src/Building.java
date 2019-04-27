@@ -1,15 +1,15 @@
 import java.util.Vector;
 
 public class Building {
-      private Vector<Floor> levels;
-      private Vector<Routes> escapeRoutes;
+      private Vector<Floor> levels= new Vector<>();
+      private Vector<Routes> escapeRoutes= new Vector<>();
 
       public Building(String n) {
       }
 
       public int getNumPeople()
       {
-          return 1;
+            return 1;
       }
 
       public void AssignRoutes()
@@ -30,7 +30,7 @@ public class Building {
       }
 
       public void addFloor(Floor f){
-
+            levels.add(f);
       }
 
       public Floor getFloor(int i) {

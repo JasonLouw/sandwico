@@ -1,8 +1,8 @@
 import java.util.Vector;
 
 public class Floor {
-    protected Vector<Nodes> nodes;
-    private Vector<Floor> ConnectedTo;
+    protected Vector<Nodes> nodes= new Vector<>();
+    private Vector<Floor> ConnectedTo= new Vector<>();
 
     public Floor(String n) {
     }
