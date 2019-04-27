@@ -12,13 +12,17 @@ public class Floor {
         return 1;
     }
 
-    public Person[] ListPeople()
+    public Vector<Person> ListPeople()
     {
         return null;
     }
 
     public Nodes getNode(int id)
     {
+        for (Nodes n :nodes) {
+            if(n.nodeId == id)
+                return n;
+        }
         return null;
     }
 }

@@ -15,7 +15,7 @@ public class Building {
       public void AssignRoutes()
       {
             for (Floor f: levels) {
-                  Person [] peopleOnFloor = f.ListPeople();
+                  Vector<Person> peopleOnFloor = f.ListPeople();
                   for (Person p: peopleOnFloor) {
                         //Assign a RANDOM route for now
                   }
@@ -28,6 +28,7 @@ public class Building {
             return temps;
             
       }
+
       public void addFloor(Floor f){
 
       }

@@ -8,28 +8,52 @@ public class Nodes {
     int nodeId;
     int weight;
     int distanceToGoal;
-//    Person[] assignedPersons;
-//    Nodes[] connectedTo;
     Vector<Nodes> connectedTo = new Vector();
     Vector<Person> assignedPersons = new Vector();
 
     Nodes(String Type,int Weight,int Distance){
         nodeId = numNodes++;
+        type= Type;
+        weight = Weight;
+        distanceToGoal = Distance;
     }
 
-    public Person [] listPeople()
+    public Vector<Person> listPeople()//Done
     {
-        return null;
+        return assignedPersons;
     }
-    public int getNumPeople()
+    public int getNumPeople()//Done
     {
-        return 1;
+        return assignedPersons.size();
     }
-    void connect(Nodes n){
+    void connect(Nodes n){// Done
         connectedTo.add(n);
 
     }
 
-    public void addPerson(Person p) {
+    public void addPerson(Person p) {//Done
+        assignedPersons.add(p);
+    }
+    public Person removePerson(Person p) { //Done
+        Person temp= null;
+        for (int i=0;i<assignedPersons.size();i++){
+            if(assignedPersons.get(i) == p){
+                temp= assignedPersons.remove(i);
+                break;
+            }
+        }
+        return temp;
+    }
+
+    public int getNodeId() {
+        return nodeId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getDistanceToGoal() {
+        return distanceToGoal;
     }
 }
