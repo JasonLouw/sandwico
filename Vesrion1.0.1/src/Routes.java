@@ -1,7 +1,12 @@
 public class Routes {
+    public String RouteName;
     private String routeName;
     private int routeId;
     private Nodes[] nodes;
+
+    public Routes(String s) {
+        RouteName = s;
+    }
 
     public int getNumPeople()
     {

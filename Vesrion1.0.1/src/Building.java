@@ -1,6 +1,11 @@
+import java.util.Vector;
+
 public class Building {
-      private Floor [] levels;
-      private Routes [] escapeRoutes;
+      private Vector<Floor> levels;
+      private Vector<Routes> escapeRoutes;
+
+      public Building(String n) {
+      }
 
       public int getNumPeople()
       {
@@ -10,18 +15,32 @@ public class Building {
       public void AssignRoutes()
       {
             for (Floor f: levels) {
-                  People [] peopleOnFloor = f.ListPeople();
-                  for (Person p:People) {
+                  Person [] peopleOnFloor = f.ListPeople();
+                  for (Person p: peopleOnFloor) {
                         //Assign a RANDOM route for now
                   }
             }
       }
 
-      public Person [] ListPeople()
+      public Vector<Person> ListPeople()
       {
-          
-            return null;
+          Vector<Person> temps = new Vector<>();
+            return temps;
             
       }
+      public void addFloor(Floor f){
 
+      }
+
+      public Floor getFloor(int i) {
+            return levels.get(i);
+      }
+
+      public int GetNumPeople() {
+            int i =0;
+            for (Floor f:levels) {
+                  i+= f.getNumPeople();
+            }
+            return i;
+      }
 }

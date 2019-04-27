@@ -1,6 +1,11 @@
+import java.util.Vector;
+
 public class Floor {
-    private Nodes[] nodes;
-    private Floor [] ConnectedTo;
+    protected Vector<Nodes> nodes;
+    private Vector<Floor> ConnectedTo;
+
+    public Floor(String n) {
+    }
 
     public int getNumPeople()
     {

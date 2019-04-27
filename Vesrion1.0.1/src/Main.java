@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -11,52 +13,52 @@ public class Main {
 
             Demo1.addFloor(new Floor("groundLevel"));
 
-            Floor groundlevel = Demo1.getFloor(0);
-            Nodes start = new Nodes("normal",1,null);
-            start.add(new Person("JohnDoe");
+            Floor groundLevel = Demo1.getFloor(0);
+            Nodes start = new Nodes("normal",1,0);
+            start.addPerson(new Person("JohnDoe"));
 
-            Nodes orangePathPoint = new Nodes("normal",1,4)
-            Nodes orangeGoal = new Nodes("goal",1,0)
+            Nodes orangePathPoint = new Nodes("normal",1,4);
+            Nodes orangeGoal = new Nodes("goal",1,0);
 
-            Nodes BluePathPoint = new Nodes("normal",1,4)
-            Nodes BlueGoal = new Nodes("goal",1,0)
+            Nodes BluePathPoint = new Nodes("normal",1,4);
+            Nodes BlueGoal = new Nodes("goal",1,0);
 
           //This will add all the nodes to the building but we have no way of moving between them yet so dont forget to connect them to each other
-            groundLevel.nodes.push( start)
-            groundLevel.nodes.push( orangePathPoint)
-            groundLevel.nodes.push( orangeGoal)
-            groundLevel.nodes.push( BluePathPoint)
-            groundLevel.nodes.push( BlueGoal)
+            groundLevel.nodes.add( start);
+            groundLevel.nodes.add( orangePathPoint);
+            groundLevel.nodes.add( orangeGoal);
+            groundLevel.nodes.add( BluePathPoint);
+            groundLevel.nodes.add( BlueGoal);
 
             //OOH!!! we should be able to get the num people now!
-                    System.out.println("# People in Building: "+Demo1.GetNumPeople())
+                    System.out.println("# People in Building: "+Demo1.GetNumPeople());
 
           //This current way of connecting means it is only one way thus when the AI program does comparisons it will decrease the change of cycles occuring
-            start.connect(orangePathPoint)
-            start.connect(BluePathPoint)
+            start.connect(orangePathPoint);
+            start.connect(BluePathPoint);
 
-            orangePathPoint.connect(orangeGoal)
-            BluePathPoint.connect(BlueGoal)
+            orangePathPoint.connect(orangeGoal);
+            BluePathPoint.connect(BlueGoal);
 
             //We have to add it to the route cant just have descriptive names XD
-            Route blue = new Route("Blue")
-            Route orange = new Route("Orange")
-            blue.addNode(BluePathPoint)
-            blue.addNode(BlueGoal)
-            orange.addNode(orangePathPoint)
-            orange.addNode(orangeGoal)
+            Routes blue = new Routes("Blue");
+            Routes orange = new Routes("Orange");
+            blue.addNode(BluePathPoint);
+            blue.addNode(BlueGoal);
+            orange.addNode(orangePathPoint);
+            orange.addNode(orangeGoal);
 
 
 
-            Building.AssignRoutes()
+            Demo1.AssignRoutes();
 
 
 
             //Some testing
-            System.out.printlm("People and assigned Routes")
-            System.out.printlm("--------------------------")
-            for(Person Building.ListPeople() : person){
-                System.out.print(person.name+" - "+ person.getAssignRoute().RouteName)
+            System.out.println("People and assigned Routes");
+            System.out.println("--------------------------");
+            for(Person person :  Demo1.ListPeople()){
+                System.out.print(person.name+" - "+ person.getAssignedRoute().RouteName);
             }
 
 
@@ -69,6 +71,7 @@ public class Main {
         }
         System.exit(0);
     }
+
 }
 /*
 *               Mini representation of how it looks in my head

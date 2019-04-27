@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 public class Nodes {
 
     static int numNodes = 0;
@@ -14,7 +16,6 @@ public class Nodes {
     Nodes(String Type,int Weight,int Distance){
         nodeId = numNodes++;
     }
-    int()
 
     public Person [] listPeople()
     {
@@ -24,8 +25,11 @@ public class Nodes {
     {
         return 1;
     }
-    connect(Node n){
-        connectedTo.push(n);
+    void connect(Nodes n){
+        connectedTo.add(n);
 
+    }
+
+    public void addPerson(Person p) {
     }
 }
