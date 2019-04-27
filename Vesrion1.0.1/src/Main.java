@@ -3,6 +3,10 @@ public class Main {
     public static void main(String[] args) {
         try
         {
+            //Try pseudo code
+            //Create Building
+            //Building->addFloor
+            //Nodes(String Type,int Weight,int Distance)
             Building Demo1 = new Building("CS_Department");
 
             Demo1.addFloor(new Floor("groundLevel"));
