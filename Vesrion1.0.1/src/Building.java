@@ -3,8 +3,10 @@ import java.util.Vector;
 public class Building {
       private Vector<Floor> levels= new Vector<>();
       private Vector<Routes> escapeRoutes= new Vector<>();
+      private String name;
 
       public Building(String n) {
+            name = n;
       }
 
       public int getNumPeople()

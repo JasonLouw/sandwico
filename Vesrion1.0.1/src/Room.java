@@ -1,7 +1,7 @@
 import java.util.Vector;
 
 public class Room {
-    private Vector<Door> doors = new Vector<Door>();
+    public Vector<Door> doors = new Vector<Door>();
     private Vector<Person> peopleInRoom = new Vector<>();
     private double [] [] coordinates;
     public Room(double [] [] array)
@@ -14,4 +14,41 @@ public class Room {
         }
     }
 
+    public void addDoor(Door d)
+    {
+        doors.add(d);
+    }
+
+    public void addPerson(Person p)
+    {
+        peopleInRoom.add(p);
+    }
+
+    public Vector<Integer> assignPeople()
+    {
+        Vector<Integer> asignedTo = new Vector<>();
+        for(int i = 0; i < peopleInRoom.size(); i++)
+        {
+            asignedTo.add(getClosestDoorIndex(i));
+        }
+        return asignedTo;
+    }
+    public int getClosestDoorIndex(int personIndex)
+    {
+        double total;
+        double smallest = 999999999;
+        int doorIndex = 0;
+        double [] doorCoordinates;
+        for(int i = 0; i < doors.size(); i++)
+        {
+            doorCoordinates= doors.get(i).getCenter();
+            total = Math.sqrt(((doorCoordinates[0] - peopleInRoom.get(personIndex).position[0])*(doorCoordinates[0] - peopleInRoom.get(personIndex).position[0]))+((doorCoordinates[1] - peopleInRoom.get(personIndex).position[1])*(doorCoordinates[1] - peopleInRoom.get(personIndex).position[1])));
+            if(total < smallest)
+            {
+                smallest = total;
+                doorIndex = i;
+            }
+        }
+        return doorIndex;
+    }
 }

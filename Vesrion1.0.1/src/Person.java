@@ -2,7 +2,7 @@ public class Person {
     static int numPeople = 0;
     public String name;
     Routes AssignedRoute;
-    int [] Position;
+    double [] position;
     int personID= 0;
 
     public Person(String n) {
@@ -11,9 +11,12 @@ public class Person {
 
     }
 
-    public void setPosition(int[] position) {
-        Position = position;
+    public void setPosition(double[] p) {
+       position = new double [2];
+       position[0] = p[0];
+       position[1] = p[1];
     }
+
 
     public void setAssignedRoute(Routes assignedRoute) {
         AssignedRoute = assignedRoute;
@@ -27,8 +30,8 @@ public class Person {
         return name;
     }
 
-    public int[] getPosition() {
-        return Position;
+    public double[] getPosition() {
+        return position;
     }
 
     public Routes getAssignedRoute() {

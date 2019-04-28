@@ -30,9 +30,44 @@ public class Main implements Runnable {
             //##############################
             Thread thread1 = new Thread( new RTFEServer());
             thread1.start();
+            double array [][] = new double[3][2];
+            for(int i = 0; i < 3; i++)
+            {
+                array[i][0] = 0;
+                array[i][1] = 10;
+            }
+            Room room1 = new Room(array);
+            array[0][0] = 0;
+            array[0][1] = 0;
+            array[1][0] = 0;
+            array[1][1] = 2;
+            array[2][0] = 0;
+            array[2][1] = 4;
+            Node start1 = new Node("door 1", 1);
+            Door door1 = new Door(array, start1, "door 1");
+            room1.addDoor(door1);
+            array[0][0] = 0;
+            array[0][1] = 0;
+            array[1][0] = 6;
+            array[1][1] = 8;
+            array[2][0] = 0;
+            array[2][1] = 4;
 
-            Node start1 = new Node(1);
-            Node start2 = new Node(1);
+            Node start2 = new Node("door 2",1);
+            Door door2 = new Door(array, start2, "door 2");
+            room1.addDoor(door2);
+
+            Person person1 = new Person("Person 1");
+            double a [] = new double[2];
+            a[0] = 5;
+            a[1] = 5;
+
+            person1.setPosition(a);
+            room1.addPerson(person1);
+
+            Vector<Integer> assignedDoorsArray = room1.assignPeople();
+
+            System.out.println(room1.doors.get(assignedDoorsArray.get(0)).doorName);
             Node share = new Node(1);
             Node end1 = new Node(1);
             Node end2 = new Node(1);
