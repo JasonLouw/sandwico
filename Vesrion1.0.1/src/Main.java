@@ -39,7 +39,7 @@ public class Main implements Runnable {
             start1.connect(share, 1);
             start2.connect(share, 2);
             share.connect(end1, 3);
-            share.connect(end2, 4);
+            share.connect(end2, 5);
 
             Routes route1 = new Routes("route1");
             route1.addNode(start1);
