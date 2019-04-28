@@ -31,6 +31,28 @@ public class Main implements Runnable {
             Thread thread1 = new Thread( new RTFEServer());
             thread1.start();
 
+            Node start1 = new Node(1);
+            Node start2 = new Node(1);
+            Node share = new Node(1);
+            Node end1 = new Node(1);
+            Node end2 = new Node(1);
+            start1.connect(share, 1);
+            start2.connect(share, 2);
+            share.connect(end1, 3);
+            share.connect(end2, 4);
+
+            Routes route1 = new Routes("route1");
+            route1.addNode(start1);
+            route1.addNode(share);
+            route1.addNode(end1);
+            Routes route2 = new Routes("route2");
+            route2.addNode(start2);
+            route2.addNode(share);
+            route2.addNode(end2);
+
+            System.out.println(route1. distanceToGoal(start1));
+            System.out.println(route2. distanceToGoal(start2));
+
         }
         catch(Exception e)
         {

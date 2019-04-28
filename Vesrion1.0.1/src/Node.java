@@ -7,13 +7,18 @@ public class Node {
     String type;
     int nodeId;
     int weight;
-    Vector<Double> distanceToNode = new Vector();
-    Vector<Node> nodes = new Vector();
+    Vector<Double> distanceToNodes = new Vector();
+    Vector<Node> connectedTo = new Vector();
     Vector<Person> assignedPersons = new Vector();
 
     Node(String Type, int Weight){
         nodeId = numNodes++;
         type= Type;
+        weight = Weight;
+    }
+    Node(int Weight){
+        nodeId = numNodes++;
+        type= "node";
         weight = Weight;
     }
 
@@ -25,9 +30,9 @@ public class Node {
     {
         return assignedPersons.size();
     }
-    void connect(Node n,int distance){// Done
-//        connectedTo.add(n);
-
+    void connect(Node n,double distance){// Done
+        connectedTo.add(n);
+        distanceToNodes.add(distance);
     }
 
     public void addPerson(Person p) {//Done
@@ -47,7 +52,11 @@ public class Node {
     public int getNodeId() {
         return nodeId;
     }
-
+    public double distanceToNode(Node n)
+    {
+        int index = connectedTo.indexOf(n);
+        return distanceToNodes.get(index);
+    }
     public String getType() {
         return type;
     }
@@ -65,6 +74,7 @@ public class Node {
         }
         return  TempDistance;
         */
+
         return 0.0;
     }
 }
