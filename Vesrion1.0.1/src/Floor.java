@@ -25,4 +25,7 @@ public class Floor {
         }
         return null;
     }
+    public void addNode(Node n){
+        nodes.add(n);
+    }
 }
