@@ -12,13 +12,12 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-
 public class HTTPServer extends Server{
         static final File WEB_ROOT = new File("./html");
         static final String DEFAULT_FILE = "index.html";
         static final String FILE_NOT_FOUND = "404.html";
         static final String METHOD_NOT_SUPPORTED = "not_supported.html";
-        static final int PORT = 8080;
+        static final int PORT = 5000;
         // verbose mode
         //Enable this for addition console logs
         static final boolean verbose = true;
@@ -80,7 +79,7 @@ public class HTTPServer extends Server{
             byte[] fileData = readFileData(file, fileLength);
 
             out.println("HTTP/1.1 404 File Not Found");
-            out.println("Server: Java HTTP Server from SSaurel : 1.0");
+            //out.println("Server: Java HTTP Server from SSaurel : 1.0");
             out.println("Date: " + new Date());
             out.println("Content-type: " + content);
             out.println("Content-length: " + fileLength);
@@ -119,7 +118,6 @@ public class HTTPServer extends Server{
                     out = new PrintWriter(connect.getOutputStream());
                     // get binary output stream to client (for requested data)
                     dataOut = new BufferedOutputStream(connect.getOutputStream());
-
                     // get first line of the request from the client
                     String input = in.readLine();
                     // we parse the request with a string tokenizer
@@ -129,7 +127,7 @@ public class HTTPServer extends Server{
                     fileRequested = parse.nextToken().toLowerCase();
 
                     // we support only GET and HEAD methods, we check
-                    if (!method.equals("GET") && !method.equals("HEAD")) {
+                    if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
                         if (verbose) {
                             System.out.println("501 Not Implemented : " + method + " method.");
                         }
@@ -150,7 +148,19 @@ public class HTTPServer extends Server{
                         dataOut.write(fileData, 0, fileLength);
                         dataOut.flush();
 
-                    } else {
+                    }else if(method.equals("POST")){
+                        out.println("HTTP/1.1 200 OK");
+                        out.println("Date: " + new Date());
+                        out.println("Con+tent-type: " + "application/json");
+//                        out.println("Content-length: " + fileLength);
+                        out.println(); // blank line between headers and content, very important !
+                        out.flush();
+                        String json = "{\"status\":\"successful\"}";
+                        out.println(json);
+                        out.flush();
+
+                    }
+                    else if(method.equals("GET") || method.equals("HEAD")){
                         // GET or HEAD method
                         if (fileRequested.endsWith("/")) {
                             fileRequested += DEFAULT_FILE;
