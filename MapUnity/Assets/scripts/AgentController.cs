@@ -10,7 +10,7 @@ public class AgentController : MonoBehaviour
     void Start()
     {
         
-         agent.SetDestination(GameObject.FindWithTag("door1").transform.position);
+         agent.SetDestination(GameObject.FindWithTag("door").transform.position);
         // agent.destination = new Vector3(1,1,1);
     }
 
