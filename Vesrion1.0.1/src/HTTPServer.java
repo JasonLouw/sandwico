@@ -3,6 +3,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
+
+import io.mappedbus.MappedBusWriter;
 import org.json.*;
 
 public class HTTPServer extends Server{
@@ -159,7 +161,6 @@ public class HTTPServer extends Server{
                                 payload.append((char) in.read());
                             }
                             String test = getJSONStr(payload);
-//                            System.out.println("Payload data is: \n"+ test);
                             JSONObject req = new JSONObject(test);
                             if(verbose)
                                 System.out.println("Client -> Server: "+ req.toString());
@@ -173,6 +174,10 @@ public class HTTPServer extends Server{
                                 }
                                 case "register":{
                                     res = register((String)req.get("name"), (String)req.get("pass"));
+                                    break;
+                                }
+                                case "unity":{
+                                    res = sendToRTFE(req);
                                     break;
                                 }
                             }
@@ -233,6 +238,23 @@ public class HTTPServer extends Server{
                     }
                 }
             }
+        }
+
+        private JSONObject sendToRTFE(JSONObject req) {
+            JSONObject Response = new JSONObject();
+            try{
+                MappedBusWriter writer = new MappedBusWriter("/tmp/test", 100000L, 32);
+                writer.open();
+                String data = req.toString();
+                writer.write(req.toString().getBytes(),0,data.length());
+                boolean status= false;
+                Response.put("status", status);
+                Response.put("msg","Failed");
+            }catch(Exception e){
+                if(verbose)
+                    System.out.println("CRITICAL - LOGIN FAILED");
+            }
+            return Response;
         }
 
         private String getJSONStr(StringBuilder payload) {
