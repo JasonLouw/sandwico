@@ -1,23 +1,17 @@
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
+import org.json.*;
 
 public class HTTPServer extends Server{
         static final File WEB_ROOT = new File("./html");
         static final String DEFAULT_FILE = "index.html";
         static final String FILE_NOT_FOUND = "404.html";
         static final String METHOD_NOT_SUPPORTED = "not_supported.html";
-        static final int PORT = 5000;
+        static final int PORT = 8080;
+        Database USERDB = new Database();
         // verbose mode
         //Enable this for addition console logs
         static final boolean verbose = true;
@@ -27,7 +21,6 @@ public class HTTPServer extends Server{
         }
         @Override
         void start(){}
-
         @Override
         public void run() {
             System.out.println("--------------------------");
@@ -79,7 +72,7 @@ public class HTTPServer extends Server{
             byte[] fileData = readFileData(file, fileLength);
 
             out.println("HTTP/1.1 404 File Not Found");
-            //out.println("Server: Java HTTP Server from SSaurel : 1.0");
+            out.println("Server: Java HTTP Server from SSaurel : 1.0");
             out.println("Date: " + new Date());
             out.println("Content-type: " + content);
             out.println("Content-length: " + fileLength);
@@ -112,22 +105,26 @@ public class HTTPServer extends Server{
                 String fileRequested = null;
 
                 try {
+
                     // we read characters from the client via input stream on the socket
                     in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
                     // we get character output stream to client (for headers)
                     out = new PrintWriter(connect.getOutputStream());
                     // get binary output stream to client (for requested data)
                     dataOut = new BufferedOutputStream(connect.getOutputStream());
+
                     // get first line of the request from the client
+                    while (!in.ready()){/*DONT REMOVE THIS it prevents a null pointer*/}
                     String input = in.readLine();
                     // we parse the request with a string tokenizer
+
                     StringTokenizer parse = new StringTokenizer(input);
                     String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
                     // we get file requested
                     fileRequested = parse.nextToken().toLowerCase();
 
                     // we support only GET and HEAD methods, we check
-                    if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
+                    if (!method.equals("GET")  && !method.equals("HEAD") && !method.equals("POST")) {
                         if (verbose) {
                             System.out.println("501 Not Implemented : " + method + " method.");
                         }
@@ -148,20 +145,46 @@ public class HTTPServer extends Server{
                         dataOut.write(fileData, 0, fileLength);
                         dataOut.flush();
 
-                    }else if(method.equals("POST")){
+                    }
+                    else if(method.equals("POST")){
+
                         out.println("HTTP/1.1 200 OK");
                         out.println("Date: " + new Date());
-                        out.println("Con+tent-type: " + "application/json");
-//                        out.println("Content-length: " + fileLength);
+                        out.println("Content-type: " + "application/json");
                         out.println(); // blank line between headers and content, very important !
                         out.flush();
-                        String json = "{\"status\":\"successful\"}";
-                        out.println(json);
-                        out.flush();
+                        /**Getting the req.body*/
+                            StringBuilder payload = new StringBuilder();
+                            while(in.ready()){
+                                payload.append((char) in.read());
+                            }
+                            String test = getJSONStr(payload);
+//                            System.out.println("Payload data is: \n"+ test);
+                            JSONObject req = new JSONObject(test);
+                            if(verbose)
+                                System.out.println("Client -> Server: "+ req.toString());
+                        /**Processing the req.body*/
+                            String reqType = (String)req.get("type");
+                            JSONObject res = new JSONObject();
+                            switch (reqType){
+                                case "login":{
+                                    res = login((String)req.get("name"), (String)req.get("pass"));
+                                    break;
+                                }
+                                case "register":{
+                                    res = register((String)req.get("name"), (String)req.get("pass"));
+                                    break;
+                                }
+                            }
+                        /**Responding to the client*/
+                            if(verbose)
+                                System.out.println("Server -> Client:"+ res.toString());
+                            out.println(res.toString());
+                            out.flush();
 
                     }
-                    else if(method.equals("GET") || method.equals("HEAD")){
-                        // GET or HEAD method
+                    else { // GET or HEAD method
+
                         if (fileRequested.endsWith("/")) {
                             fileRequested += DEFAULT_FILE;
                         }
@@ -193,6 +216,8 @@ public class HTTPServer extends Server{
 
                 } catch (IOException ioe) {
                     System.err.println("Server error : " + ioe);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 } finally {
                     try {
                         in.close();
@@ -208,6 +233,47 @@ public class HTTPServer extends Server{
                     }
                 }
             }
+        }
+
+        private String getJSONStr(StringBuilder payload) {
+            if(verbose)
+                System.out.println("String to convert: "+payload);
+            return payload.substring(payload.indexOf("{"));
+        }
+
+        private JSONObject login(String name, String password){
+
+            var Response = new JSONObject();
+            try{
+                boolean status= USERDB.search(name, password);
+                Response.put("status", status);
+                Response.put("msg","Invalid user/pass");
+            }catch(Exception e){
+                if(verbose)
+                    System.out.println("CRITICAL - LOGIN FAILED");
+            }
+            return Response;
+        }
+
+        private JSONObject register(String name,String password){
+            var Response = new JSONObject();
+            try{
+                boolean exist = USERDB.search(name, "");
+                if(exist){
+                    Response.put("status", false);
+                    Response.put("msg","User already Exists");
+                }else{
+                    USERDB.write(name, password);
+                    Response.put("status", true);
+                    Response.put("msg","User Successfully created");
+
+                }
+            }catch (Exception e){
+                if(verbose)
+                    System.out.println("CRITICAL - REGISTER FAILED");
+            }
+
+            return Response;
         }
     }
 
