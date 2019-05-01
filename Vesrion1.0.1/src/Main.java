@@ -1,4 +1,7 @@
-import netscape.javascript.JSObject;
+import Builder.Door;
+import Builder.Node;
+import Builder.Room;
+import Builder.Routes;
 
 import java.util.Vector;
 
@@ -30,6 +33,7 @@ public class Main implements Runnable {
             //##############################
             Thread thread1 = new Thread( new RTFEServer());
             thread1.start();
+            /*
             double array [][] = new double[3][2];
             for(int i = 0; i < 3; i++)
             {
@@ -57,7 +61,6 @@ public class Main implements Runnable {
             Door door2 = new Door(array, start2, "door 2");
             room1.addDoor(door2);
 
-            Person person1 = new Person("Person 1");
             double a [] = new double[2];
             a[0] = 5;
             a[1] = 5;
@@ -87,7 +90,7 @@ public class Main implements Runnable {
 
             System.out.println(route1. distanceToGoal(start1));
             System.out.println(route2. distanceToGoal(start2));
-
+            */
         }
         catch(Exception e)
         {

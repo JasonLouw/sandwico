@@ -243,7 +243,7 @@ public class HTTPServer extends Server{
 
         private JSONObject login(String name, String password){
 
-            var Response = new JSONObject();
+            JSONObject Response = new JSONObject();
             try{
                 boolean status= USERDB.search(name, password);
                 Response.put("status", status);
@@ -256,7 +256,7 @@ public class HTTPServer extends Server{
         }
 
         private JSONObject register(String name,String password){
-            var Response = new JSONObject();
+            JSONObject Response = new JSONObject();
             try{
                 boolean exist = USERDB.search(name, "");
                 if(exist){
